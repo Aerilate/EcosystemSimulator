@@ -1,16 +1,26 @@
 class Wolf extends Animal implements Comparable<Wolf> {
+    final int DAMAGE = 10;
+
     Wolf(int health, Gender gender, boolean alreadyMoved) {
         super(health, gender, alreadyMoved);
     }
 
-    public static void attack(Organism[][] map, int wolfY, int wolfX, int enemyY, int enemyX) {
-        if ((((Wolf) map[wolfY][wolfX]).compareTo((Wolf) map[enemyY][enemyX])) == -1) {
-            map[wolfY][wolfX].setHealth(map[wolfY][wolfX].getHealth() - 10);
-        } else if ((((Wolf) map[wolfY][wolfX]).compareTo((Wolf) map[enemyY][enemyX])) == 1) {
-            map[enemyY][enemyX].setHealth(map[wolfY][wolfX].getHealth() - 10);
+    public void attack(Wolf other) {
+        int diff = this.compareTo(other);
+        // both take damage if diff == 0
+        if (diff >= 0) {
+            other.takeDamage();
+        }
+        if (diff <= 0) {
+            this.takeDamage();
         }
     }
 
+    public void takeDamage() {
+        this.setHealth(this.getHealth() - DAMAGE);
+    }
+
+    @Override
     public int compareTo(Wolf enemy) {
         if (this.getHealth() == enemy.getHealth()) {
             return 0;
