@@ -23,7 +23,7 @@ class Ecosystem{
   public static void spawn(Organism[][] map, int mapSize, String organism, int babySheepHealth, int babyWolfHealth){
     Random myRandom= new Random();
     
-    int gender = myRandom.nextInt(1);
+    Gender gender = Math.random() < 0.5 ? Gender.Male : Gender.Female;
     int spawnX;
     int spawnY;
     int spawnThreshold=0;
@@ -234,7 +234,7 @@ class Ecosystem{
     
     int numTurn=0;
     int spawnX, spawnY;
-    int gender;
+    Gender gender;
     int numPlants, numSheep, numWolves;
     boolean alreadyMoved;
     
@@ -289,7 +289,7 @@ class Ecosystem{
       do{
         spawnX = myRandom.nextInt(mapSize);
         spawnY = myRandom.nextInt(mapSize);
-        gender =myRandom.nextInt(2);
+        gender = Math.random() < 0.5 ? Gender.Male : Gender.Female;;
       } while(((map[spawnY][spawnX] instanceof Plant))|| ((map[spawnY][spawnX] instanceof Sheep)) || ((map[spawnY][spawnX] instanceof Wolf))); //Checks for empty spaces
       map[spawnY][spawnX]=new Sheep(sheepHealth, gender, false);
     }
@@ -299,7 +299,7 @@ class Ecosystem{
       do {
         spawnX = myRandom.nextInt(mapSize);
         spawnY = myRandom.nextInt(mapSize);
-        gender =myRandom.nextInt(2);
+        gender = Math.random() < 0.5 ? Gender.Male : Gender.Female;;
       }while (((map[spawnY][spawnX] instanceof Plant))||((map[spawnY][spawnX] instanceof Sheep)) || ((map[spawnY][spawnX] instanceof Wolf))); //Checks for empty spaces
       map[spawnY][spawnX]=new Wolf(wolfHealth, gender, false);
     }
