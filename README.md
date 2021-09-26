@@ -5,8 +5,9 @@ Ecosystem Simulator is a Java program that models an environment with three spec
 &nbsp;
 
 ## Implementation
-This program was implemented with Java 12 and Swing. This program leverages OO principles including abstraction, inheritance, and encapsulation.\
-&nbsp;
+This program was implemented with Java 12 and Swing. This program leverages OO principles including abstraction, inheritance, and encapsulation. The UML of the organism hierarchy is shown below:
+
+<img src="organismHierarchy.png" alt="drawing" style="width:350px;"/>
 
 ## Sept 2021 Major Refactor
 In Sept 2021, I decided to take some time refactoring this project! I kept the core logic of the program the same, with the added accomplishments:
