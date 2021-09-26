@@ -2,11 +2,13 @@ import java.util.Random;
 
 class Ecosystem {
     static final int MAP_SIZE = 17;
+    static final int DELAY_TIME_IN_MS = 400;
+    
     static final int INITIAL_PLANTS = 30;
     static final int INITIAL_SHEEP = 30;
-    static final int INITIAL_WOLVES = 3;
+    static final int INITIAL_WOLVES = 6;
     static final int PLANTS_EACH_TURN = 25;
-    static final int DELAY_TIME_IN_MS = 400;
+    static final int BREED_WHEN_HEALTH_SUM_OVER = 20;
 
     int turn = 0;
     int numPlants = 0;
@@ -35,6 +37,15 @@ class Ecosystem {
         }
     }
 
+    void spawn(Organism organism) {
+        Random rand = new Random();
+        int row = rand.nextInt(terrain.length);
+        int col = rand.nextInt(terrain[0].length);
+        if (terrain[row][col] == null) {
+            terrain[row][col] = organism;
+        }
+    }
+
     void run() {
         initialSpawn();
         display.refresh();
@@ -58,9 +69,7 @@ class Ecosystem {
             endTurn();
             System.out.println("----------");
             System.out.println("Turn: " + turn);
-            System.out.println("Plants: " + numPlants);
-            System.out.println("Sheep: " + numSheep);
-            System.out.println("Wolves: " + numWolves);
+            System.out.printf("%d plants, %d sheep, %d wolves\n", numPlants, numSheep, numWolves);
             try {
                 Thread.sleep(DELAY_TIME_IN_MS);
             } catch (InterruptedException e) {
@@ -69,15 +78,6 @@ class Ecosystem {
         } while (!hasEnded());
         display.refresh();
         System.out.println("Simulation Ended");
-    }
-
-    void spawn(Organism organism) {
-        Random rand = new Random();
-        int row = rand.nextInt(terrain.length);
-        int col = rand.nextInt(terrain[0].length);
-        if (terrain[row][col] == null) {
-            terrain[row][col] = organism;
-        }
     }
 
     Pair<Integer, Integer> getRandDirection() {
@@ -128,7 +128,7 @@ class Ecosystem {
                 Sheep currSheep = (Sheep) currAnimal;
                 Sheep other = (Sheep) terrain[dest.first][dest.second];
 
-                if (currSheep.getHealth() + other.getHealth() > 20
+                if (currSheep.getHealth() + other.getHealth() > BREED_WHEN_HEALTH_SUM_OVER
                         && currSheep.getGender() != other.getGender()) {
                     spawn(factory.createOrganism(OrganismType.Sheep));
                 }
@@ -149,13 +149,7 @@ class Ecosystem {
 
                 if (currWolf.getGender() == other.getGender()) {
                     currWolf.attack(other);
-                    return;
-                }
-
-                if (currWolf.getHealth() + other.getHealth() > 20
-                        && currWolf.getGender() != other.getGender()) {
-                    currWolf.setHealth(currWolf.getHealth() - 10);
-                    other.setHealth(currWolf.getHealth() - 10);
+                } else if (currWolf.getHealth() + other.getHealth() > BREED_WHEN_HEALTH_SUM_OVER) {
                     spawn(factory.createOrganism(OrganismType.Wolf));
                 }
             }
