@@ -1,8 +1,8 @@
 class Wolf extends Animal implements Comparable<Wolf> {
     final int DAMAGE = 10;
 
-    Wolf(int health, Gender gender, boolean alreadyMoved) {
-        super(health, gender, alreadyMoved);
+    Wolf(int health, Gender gender) {
+        super(health, gender);
     }
 
     public void attack(Wolf other) {

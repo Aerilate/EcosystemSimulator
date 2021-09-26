@@ -1,11 +1,10 @@
 abstract class Animal extends Organism {
     private final Gender gender;
-    private boolean alreadyMoved;
+    private boolean alreadyMoved = false;
 
-    Animal(int health, Gender gender, boolean alreadyMoved) {
+    Animal(int health, Gender gender) {
         super(health);
         this.gender = gender;
-        this.alreadyMoved = alreadyMoved;
     }
 
     public Gender getGender() {
