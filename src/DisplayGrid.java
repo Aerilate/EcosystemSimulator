@@ -11,7 +11,7 @@ class DisplayGrid {
 
         maxX = Toolkit.getDefaultToolkit().getScreenSize().width;
         maxY = Toolkit.getDefaultToolkit().getScreenSize().height;
-        GridToScreenRatio = maxY / (world.length + 1);  //ratio to fit in screen as square map
+        GridToScreenRatio = maxY / (world.length + 1); // ratio to fit in screen as square map
 
         this.frame = new JFrame("EcoSim5000: Map of World");
         GridAreaPanel worldPanel = new GridAreaPanel();
@@ -36,10 +36,10 @@ class DisplayGrid {
 
             for (int i = 0; i < world[0].length; i = i + 1) {
                 for (int j = 0; j < world.length; j = j + 1) {
-                    g.setColor(new java.awt.Color(144, 238, 144)); //Light green colour
+                    g.setColor(new java.awt.Color(144, 238, 144)); // light green colour
                     g.fillRect(j * GridToScreenRatio, i * GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
 
-                    //Draws the organisms
+                    // draws the organisms
                     if (world[i][j] instanceof Plant) {
                         g.drawImage(plant, j * GridToScreenRatio, i * GridToScreenRatio, GridToScreenRatio, GridToScreenRatio, this);
                     } else if (world[i][j] instanceof Sheep) {

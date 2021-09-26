@@ -25,6 +25,9 @@ class Ecosystem {
         this.factory = new OrganismFactory();
     }
 
+    /**
+     * Spawns organisms at their initial quantity.
+     */
     void initialSpawn() {
         for (int i = 0; i < INITIAL_PLANTS; i++) {
             spawn(factory.createOrganism(OrganismType.Plant));
@@ -37,6 +40,10 @@ class Ecosystem {
         }
     }
 
+    /**
+     * Places organism somewhere random on the terrain.
+     * @param organism
+     */
     void spawn(Organism organism) {
         Random rand = new Random();
         int row = rand.nextInt(terrain.length);
@@ -46,6 +53,9 @@ class Ecosystem {
         }
     }
 
+    /**
+     * Runs the ecosystem simulation.
+     */
     void run() {
         initialSpawn();
         display.refresh();
@@ -80,6 +90,10 @@ class Ecosystem {
         System.out.println("Simulation Ended");
     }
 
+    /**
+     * Generates one out of five possible pairs, representing the four directions + no movement
+     * @return One of the pairs (1,0), (0,1), (-1,0), (0,-1), (0,0)
+     */
     Pair<Integer, Integer> getRandDirection() {
         Random rand = new Random();
         int direction = rand.nextInt(5);
@@ -102,6 +116,13 @@ class Ecosystem {
                 && 0 <= posn.second && posn.second < terrain[0].length;
     }
 
+    /**
+     * Moves the current animal to the row and col if possible.
+     * Possible actions may include reproducing (both wolves, sheep) or fighting (wolves).
+     * @param currAnimal
+     * @param row
+     * @param col
+     */
     public void move(Animal currAnimal, int row, int col) {
         if (currAnimal.getAlreadyMoved()) {
             return;
@@ -118,7 +139,7 @@ class Ecosystem {
 
         // Sheep Movement
         if (currAnimal instanceof Sheep) {
-            currAnimal.setAlreadyMoved(true); //Marks down that it doesn't need to move again this turn
+            currAnimal.setAlreadyMoved(true);
 
             if (terrain[dest.first][dest.second] instanceof Plant) {
                 currAnimal.setHealth(currAnimal.getHealth() + terrain[dest.first][dest.second].getHealth());
@@ -143,19 +164,24 @@ class Ecosystem {
                 currAnimal.setHealth(currAnimal.getHealth() + terrain[dest.first][dest.second].getHealth());
                 terrain[dest.first][dest.second] = terrain[row][col];
                 terrain[row][col] = null;
-            } else if (terrain[dest.first][dest.second] instanceof Wolf) { //Breeding or Fighting
+            } else if (terrain[dest.first][dest.second] instanceof Wolf) {
                 Wolf currWolf = (Wolf) currAnimal;
                 Wolf other = (Wolf) terrain[dest.first][dest.second];
 
-                if (currWolf.getGender() == other.getGender()) {
+                if (currWolf.getGender() == other.getGender()) { // fight
                     currWolf.attack(other);
-                } else if (currWolf.getHealth() + other.getHealth() > BREED_WHEN_HEALTH_SUM_OVER) {
+                } else if (currWolf.getHealth() + other.getHealth() > BREED_WHEN_HEALTH_SUM_OVER) { // reproduce
                     spawn(factory.createOrganism(OrganismType.Wolf));
                 }
             }
         }
     }
 
+    /**
+     * Decay the health of each organism.
+     * Count the instances of each organism.
+     * Allow each organism to move again.
+     */
     public void endTurn() {
         numPlants = 0;
         numSheep = 0;
@@ -192,6 +218,10 @@ class Ecosystem {
         turn++;
     }
 
+    /**
+     * Returns true iff one of the organisms reaches a population of 0.
+     * @return boolean
+     */
     public boolean hasEnded() {
         return numPlants * numSheep * numWolves == 0;
     }

@@ -5,6 +5,10 @@ class Wolf extends Animal implements Comparable<Wolf> {
         super(health, gender);
     }
 
+    /**
+     * Wolf that loses comparison takes damage. Both take damage if wolves compare equal.
+     * @param other
+     */
     public void attack(Wolf other) {
         int diff = this.compareTo(other);
         // both take damage if diff == 0
@@ -20,6 +24,11 @@ class Wolf extends Animal implements Comparable<Wolf> {
         this.setHealth(this.getHealth() - DAMAGE);
     }
 
+    /**
+     * Compares health of two wolves
+     * @param enemy
+     * @return one of -1, 0, 1
+     */
     @Override
     public int compareTo(Wolf enemy) {
         if (this.getHealth() == enemy.getHealth()) {
