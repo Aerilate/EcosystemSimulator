@@ -28,4 +28,3 @@ class Wolf extends Animal implements Comparable<Wolf> {
         return this.getHealth() > enemy.getHealth() ? 1 : -1;
     }
 }
-

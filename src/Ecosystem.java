@@ -3,7 +3,7 @@ import java.util.Random;
 class Ecosystem {
     static final int MAP_SIZE = 17;
     static final int DELAY_TIME_IN_MS = 400;
-    
+
     static final int INITIAL_PLANTS = 30;
     static final int INITIAL_SHEEP = 30;
     static final int INITIAL_WOLVES = 6;
